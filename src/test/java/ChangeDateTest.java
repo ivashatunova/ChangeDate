@@ -59,7 +59,7 @@ public class ChangeDateTest {
         $("button .button__text").click();
         $x("//div[contains(text(), 'Перепланировать')]").shouldBe(Condition.visible, Duration.ofSeconds(15));
         $(".notification__content .button__text").click();
-        $x("//div[contains(text(), 'Успешно')]").shouldBe(Condition.visible, Duration.ofSeconds(15));
+        $("[data-test-id='success-notification']").shouldBe(Condition.visible, Duration.ofSeconds(15));
 
 
 
