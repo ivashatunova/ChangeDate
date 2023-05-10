@@ -32,7 +32,7 @@ public class ChangeDateTest {
     @Test
     void shouldSuggestNewDateOnExistingAppointment() {
         String firstMeetingDate = DataGenerator.Delivery.getData(4);
-        String secondMeetingDate = DataGenerator.Delivery.getData(4);
+        String secondMeetingDate = DataGenerator.Delivery.getData(7);
 
         DeliveryInfo deliveryInfo = DataGenerator.Delivery.generate("ru");
         $("[data-test-id='city'] .input__control").setValue(deliveryInfo.getCity());
