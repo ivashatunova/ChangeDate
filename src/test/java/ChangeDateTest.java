@@ -12,9 +12,6 @@ import java.time.format.DateTimeFormatter;
 import static com.codeborne.selenide.Selenide.*;
 
 public class ChangeDateTest {
-    private final LocalDateTime now = LocalDateTime.now();
-
-
     private Keys getControl() {
         String os = System.getProperty("os.name");
 
@@ -34,17 +31,22 @@ public class ChangeDateTest {
 
     @Test
     void shouldSuggestNewDateOnExistingAppointment() {
-        DeliveryInfo deliveryInfo = DataGenerator.Delivery.generate("ru", 4);
+        String firstMeetingDate = DataGenerator.Delivery.getData(4);
+        String secondMeetingDate = DataGenerator.Delivery.getData(4);
+
+        DeliveryInfo deliveryInfo = DataGenerator.Delivery.generate("ru");
         $("[data-test-id='city'] .input__control").setValue(deliveryInfo.getCity());
         $("[data-test-id='date'] .input__control").click();
         $("[data-test-id='date'] .input__control").sendKeys(getControl(), "a");
         $("[data-test-id='date'] .input__control").sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id='date'] .input__control").setValue(deliveryInfo.getDate());
+        $("[data-test-id='date'] .input__control").setValue(firstMeetingDate);
         $("[data-test-id='name'] .input__control").setValue(deliveryInfo.getName());
         $("[data-test-id='phone'] .input__control").setValue(deliveryInfo.getPhone());
         $("[data-test-id='agreement'] .checkbox__box").click();
         $("button .button__text").click();
-        $x("//div[contains(text(), 'Успешно')]").shouldBe(Condition.visible, Duration.ofSeconds(15));
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldHave(Condition.exactText("Встреча успешно запланирована на " + firstMeetingDate))
+                .shouldBe(Condition.visible, Duration.ofSeconds(20));
 
         Selenide.refresh();
 
@@ -52,17 +54,15 @@ public class ChangeDateTest {
         $("[data-test-id='date'] .input__control").click();
         $("[data-test-id='date'] .input__control").sendKeys(getControl(), "a");
         $("[data-test-id='date'] .input__control").sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id='date'] .input__control").setValue(DataGenerator.Delivery.getData(7));
+        $("[data-test-id='date'] .input__control").setValue(secondMeetingDate);
         $("[data-test-id='name'] .input__control").setValue(deliveryInfo.getName());
         $("[data-test-id='phone'] .input__control").setValue(deliveryInfo.getPhone());
         $("[data-test-id='agreement'] .checkbox__box").click();
         $("button .button__text").click();
         $x("//div[contains(text(), 'Перепланировать')]").shouldBe(Condition.visible, Duration.ofSeconds(15));
         $(".notification__content .button__text").click();
-        $("[data-test-id='success-notification']").shouldBe(Condition.visible, Duration.ofSeconds(15));
-
-
-
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldHave(Condition.exactText("Встреча успешно запланирована на " + secondMeetingDate))
+                .shouldBe(Condition.visible, Duration.ofSeconds(20));
     }
-
 }
