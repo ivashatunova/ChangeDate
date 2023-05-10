@@ -31,14 +31,14 @@ public class ChangeDateTest {
 
     @Test
     void shouldSuggestNewDateOnExistingAppointment() {
-        String firstMeetingDate = DataGenerator.Delivery.getData(4);
-        String secondMeetingDate = DataGenerator.Delivery.getData(7);
+        String firstMeetingDate = DataGenerator.Delivery.getData(7);
+        String secondMeetingDate = DataGenerator.Delivery.getData(8);
 
         DeliveryInfo deliveryInfo = DataGenerator.Delivery.generate("ru");
         $("[data-test-id='city'] .input__control").setValue(deliveryInfo.getCity());
         $("[data-test-id='date'] .input__control").click();
         $("[data-test-id='date'] .input__control").sendKeys(getControl(), "a");
-        $("[data-test-id='date'] .input__control").sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id='date'] .input__control").sendKeys(Keys.DELETE);
         $("[data-test-id='date'] .input__control").setValue(firstMeetingDate);
         $("[data-test-id='name'] .input__control").setValue(deliveryInfo.getName());
         $("[data-test-id='phone'] .input__control").setValue(deliveryInfo.getPhone());
@@ -53,7 +53,7 @@ public class ChangeDateTest {
         $("[data-test-id='city'] .input__control").setValue(deliveryInfo.getCity());
         $("[data-test-id='date'] .input__control").click();
         $("[data-test-id='date'] .input__control").sendKeys(getControl(), "a");
-        $("[data-test-id='date'] .input__control").sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id='date'] .input__control").sendKeys(Keys.DELETE);
         $("[data-test-id='date'] .input__control").setValue(secondMeetingDate);
         $("[data-test-id='name'] .input__control").setValue(deliveryInfo.getName());
         $("[data-test-id='phone'] .input__control").setValue(deliveryInfo.getPhone());
